@@ -6,6 +6,28 @@ function App() {
   const [input, setInput] = React.useState("")
   const [task, setTask] = React.useState([])
   const [counter, setCounter] = React.useState(1)
+  const [numTasks, setNumTasks] = React.useState(task.length)
+  const [numCompleted, setNumCompleted] = React.useState(0)
+
+  React.useEffect(() => { //update the number of tasks and the number of completed tasks
+    setNumTasks(task.length)
+  }, [task])
+
+  const countCompleted = React.useCallback((tasks) => {
+    let num = 0
+    for(let i = 0; i < tasks.length; i++){
+      if(tasks[i].completed){
+        num++
+      }
+    }
+    return num
+  }, [task])
+
+  React.useEffect(() => {
+    setNumCompleted(countCompleted(task))
+  }, [countCompleted, task])
+
+  
   
 
   function getInput(event){ //gets user input
@@ -34,8 +56,7 @@ function App() {
   }
 
   
-  
-  let taskList = (task).map(item => <li><Task //tasks to be rendered
+  let taskList = task.map(item => <li><Task //tasks to be rendered
     key={item.id}
     body={item.body} 
     id={item.id} 
@@ -44,12 +65,13 @@ function App() {
     isComplete={isComplete}
   /></li>)
   
-  console.log(task)
 
   return (
     <div className="App">
       <input value={input} onChange={getInput}type='text'/>
       <button onClick={addTask}>Add Task</button>
+      <h3>Number of Tasks: {numTasks}</h3>
+      <h3>Number of Completed Tasks: {numCompleted}</h3>
       <div className="Tasks">
         <ul>
         {taskList}
