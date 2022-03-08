@@ -2,9 +2,28 @@ body{
     margin:0;
     padding:20px;
     background-color: aqua;
-
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 
+button {
+    border: none;
+    border-radius: 3px;
+    background-color: lightblue;
+    padding: 5px;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.colors {
+    display: flex;
+    gap: 5px;
+    margin:5px;
+    margin-top: 0;
+}
+
+.features {
+    display: flex;
+    gap: 5px;
+}
 
 .task-border {
     border-left: 6px black solid;
@@ -28,7 +47,7 @@ ul {
 .yellow {
     width: 20px;
     height: 20px;
-    background-color: yellow;
+    background-color: orange;
 }
 .red {
     width: 20px;

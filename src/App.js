@@ -1,24 +1,24 @@
 import Task from './Task';
 import React from 'react';
+import { nanoid } from 'nanoid'
 
 
 function App() {
   const [input, setInput] = React.useState("")
-  // const [task, setTask] = React.useState(JSON.parse(localStorage.getItem('tasks')) || [])
-  const [task, setTask] = React.useState([])
-  const [counter, setCounter] = React.useState(1)
+  const [task, setTask] = React.useState(JSON.parse(localStorage.getItem('tasks')) || [])
   const [numTasks, setNumTasks] = React.useState(task.length)
   const [numCompleted, setNumCompleted] = React.useState(0)
+
 
   React.useEffect(() => { //update the number of tasks and the number of completed tasks
     setNumTasks(task.length)
   }, [task])
 
-  // React.useEffect(() => {
-  //   localStorage.setItem('tasks', JSON.stringify(task))
-  // }, [task])
+  React.useEffect(() => { // store the tasks in localStorage, so the tasks persist after a refresh
+    localStorage.setItem('tasks', JSON.stringify(task))
+  }, [task])
 
-  const countCompleted = React.useCallback((tasks) => {
+  const countCompleted = React.useCallback((tasks) => { // figures out the number of updated tasks
     let num = 0
     for(let i = 0; i < tasks.length; i++){
       if(tasks[i].completed){
@@ -28,7 +28,7 @@ function App() {
     return num
   }, [task])
 
-  React.useEffect(() => {
+  React.useEffect(() => { // updates the number of completed tasks
     setNumCompleted(countCompleted(task))
   }, [countCompleted, task])
 
@@ -41,8 +41,7 @@ function App() {
 
   function addTask(){ //adds a task
     if(input !== ""){
-      setTask([...task, {id: counter, body: input, completed: false, color: ''}])
-      setCounter(counter + 1)
+      setTask([...task, {id: nanoid(), body: input, completed: false, color: ''}])
       setInput("")
     }
   }
@@ -60,7 +59,7 @@ function App() {
     }))
   }
 
-  function changeColor(color, taskId){
+  function changeColor(color, taskId){ // changes the color of the task
     
     setTask(prevTasks => prevTasks.map(prevTask => {
       if(prevTask.id === taskId){
@@ -80,6 +79,7 @@ function App() {
     isComplete={isComplete}
     color={item.color}
     changeColor={changeColor}
+    // date={item.date}
   /></li>)
   
 
@@ -87,8 +87,8 @@ function App() {
     <div className="App">
       <input value={input} onChange={getInput}type='text'/>
       <button onClick={addTask}>Add Task</button>
-      <h3>Number of Tasks: {numTasks}</h3>
-      <h3>Number of Completed Tasks: {numCompleted}</h3>
+      <h3>Tasks: {numTasks}</h3>
+      <h3>Completed Tasks: {numCompleted}</h3>
       <div className="Tasks">
         <ul>
         {taskList}
