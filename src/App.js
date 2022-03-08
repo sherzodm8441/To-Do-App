@@ -4,6 +4,7 @@ import React from 'react';
 
 function App() {
   const [input, setInput] = React.useState("")
+  // const [task, setTask] = React.useState(JSON.parse(localStorage.getItem('tasks')) || [])
   const [task, setTask] = React.useState([])
   const [counter, setCounter] = React.useState(1)
   const [numTasks, setNumTasks] = React.useState(task.length)
@@ -12,6 +13,10 @@ function App() {
   React.useEffect(() => { //update the number of tasks and the number of completed tasks
     setNumTasks(task.length)
   }, [task])
+
+  // React.useEffect(() => {
+  //   localStorage.setItem('tasks', JSON.stringify(task))
+  // }, [task])
 
   const countCompleted = React.useCallback((tasks) => {
     let num = 0
@@ -36,7 +41,7 @@ function App() {
 
   function addTask(){ //adds a task
     if(input !== ""){
-      setTask([...task, {id: counter, body: input, completed: false}])
+      setTask([...task, {id: counter, body: input, completed: false, color: ''}])
       setCounter(counter + 1)
       setInput("")
     }
@@ -55,6 +60,16 @@ function App() {
     }))
   }
 
+  function changeColor(color, taskId){
+    
+    setTask(prevTasks => prevTasks.map(prevTask => {
+      if(prevTask.id === taskId){
+        return { ...prevTask,  color : color} 
+      }
+      return prevTask
+    }))
+  }
+
   
   let taskList = task.map(item => <li><Task //tasks to be rendered
     key={item.id}
@@ -63,6 +78,8 @@ function App() {
     delete={deleteTask}
     completed={item.completed}
     isComplete={isComplete}
+    color={item.color}
+    changeColor={changeColor}
   /></li>)
   
 
