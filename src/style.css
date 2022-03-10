@@ -11,6 +11,7 @@ button {
     background-color: lightblue;
     padding: 5px;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
+    cursor: pointer;
 }
 
 .colors {
@@ -23,6 +24,10 @@ button {
 .features {
     display: flex;
     gap: 5px;
+}
+
+input {
+    cursor: pointer;
 }
 
 .task-border {
@@ -43,14 +48,17 @@ ul {
     width: 20px;
     height: 20px;
     background-color: green;
+    cursor: pointer;
 }
 .yellow {
     width: 20px;
     height: 20px;
     background-color: orange;
+    cursor: pointer;
 }
 .red {
     width: 20px;
     height: 20px;
     background-color: red;
+    cursor: pointer;
 }
